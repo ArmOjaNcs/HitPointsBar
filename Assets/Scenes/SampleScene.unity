@@ -1259,7 +1259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16e757f8214b3b94281e344604a7ad68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHitPoints: 150
+  _maxValue: 150
   _hitZone: {fileID: 1006808132}
 --- !u!4 &1744113530
 Transform:

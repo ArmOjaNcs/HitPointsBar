@@ -7,6 +7,8 @@ public class HitPointsBar : MonoBehaviour, IVisualUpdate
     [SerializeField] private Slider _slider;
     [SerializeField] private HitPoints _hitPoints;
 
+    private readonly float _smoothDuration = 0.75f;
+
     public float SmoothDuration { get; set; }
 
     private void OnEnable()
@@ -21,10 +23,10 @@ public class HitPointsBar : MonoBehaviour, IVisualUpdate
 
     private void Start()
     {
-        SmoothDuration = 0.75f;
+        SmoothDuration = _smoothDuration;
     }
 
-    public IEnumerator UpdateVisual(float previousHitPointsValue)
+    public IEnumerator UpdateVisual(float previousValue)
     {
         float elapsedTime = 0;
 
@@ -32,14 +34,14 @@ public class HitPointsBar : MonoBehaviour, IVisualUpdate
         {
             elapsedTime += Time.deltaTime;
             float normalizedPosition = elapsedTime / SmoothDuration;
-            _slider.value = Mathf.MoveTowards(previousHitPointsValue, _hitPoints.CurrentHitPoints / _hitPoints.MaxHitPoints, normalizedPosition);
+            _slider.value = Mathf.MoveTowards(previousValue, _hitPoints.CurrentValue / _hitPoints.MaxValue, normalizedPosition);
 
             yield return null;
         }
     }
 
-    private void OnHitPointsUpdate(float previousHitPointsValue)
+    private void OnHitPointsUpdate(float previousValue)
     {       
-        StartCoroutine(UpdateVisual(previousHitPointsValue));
+        StartCoroutine(UpdateVisual(previousValue));
     }
 }

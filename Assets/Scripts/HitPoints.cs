@@ -3,19 +3,19 @@ using UnityEngine;
 
 public class HitPoints : MonoBehaviour
 {
-    [SerializeField] private float _maxHitPoints;
+    [SerializeField] private float _maxValue;
     [SerializeField] private HitZone _hitZone;
 
     public event Action<float> HitPointsUpdate;
 
-    public float MaxHitPoints => _maxHitPoints;
-    public float CurrentHitPoints { get; private set; }
+    public float MaxValue => _maxValue;
+    public float CurrentValue { get; private set; }
 
-    private float PreviousHitPoints => CurrentHitPoints / MaxHitPoints;
+    private float PreviousValue => CurrentValue / MaxValue;
 
     private void Awake()
     {
-        CurrentHitPoints = MaxHitPoints;
+        CurrentValue = MaxValue;
     }
 
     private void OnEnable()
@@ -32,23 +32,23 @@ public class HitPoints : MonoBehaviour
 
     private void OnDamageDetected(float damage)
     {
-        float previousHitPointsValue = PreviousHitPoints;
-        CurrentHitPoints -= damage;
+        float previousValue = PreviousValue;
+        CurrentValue -= damage;
 
-        if (CurrentHitPoints < 0)
-            CurrentHitPoints = 0;
+        if (CurrentValue < 0)
+            CurrentValue = 0;
 
-        HitPointsUpdate?.Invoke(previousHitPointsValue);
+        HitPointsUpdate?.Invoke(previousValue);
     }
 
     private void OnMedPackDetected(float heal)
     {
-        float previousHitPointsValue = PreviousHitPoints;
-        CurrentHitPoints += heal;
+        float previousValue = PreviousValue;
+        CurrentValue += heal;
 
-        if(CurrentHitPoints > MaxHitPoints)
-            CurrentHitPoints = MaxHitPoints;
+        if(CurrentValue > MaxValue)
+            CurrentValue = MaxValue;
 
-        HitPointsUpdate?.Invoke(previousHitPointsValue);
+        HitPointsUpdate?.Invoke(previousValue);
     }
 }

@@ -6,7 +6,9 @@ public class HitPointsText : MonoBehaviour, IVisualUpdate
 {
     [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private HitPoints _hitPoints;
-    
+
+    private readonly float _smoothDuration = 0.3f;
+
     public float SmoothDuration { get; set; }
 
     private void OnEnable()
@@ -21,11 +23,11 @@ public class HitPointsText : MonoBehaviour, IVisualUpdate
 
     private void Start()
     {
-        _text.text = _hitPoints.CurrentHitPoints + "/" + _hitPoints.MaxHitPoints;
-        SmoothDuration = 0.3f;
+        _text.text = _hitPoints.CurrentValue + "/" + _hitPoints.MaxValue;
+        SmoothDuration = _smoothDuration;
     }
 
-    public IEnumerator UpdateVisual(float previousHitPointsValue)
+    public IEnumerator UpdateVisual(float previousValue)
     {
         float elapsedTime = 0;
 
@@ -33,15 +35,15 @@ public class HitPointsText : MonoBehaviour, IVisualUpdate
         {
             elapsedTime += Time.deltaTime;
             float normalizedPosition = elapsedTime / SmoothDuration;
-            float currentValue = Mathf.Lerp(previousHitPointsValue, _hitPoints.CurrentHitPoints / _hitPoints.MaxHitPoints, normalizedPosition);
-            _text.text = (Mathf.Round(currentValue * _hitPoints.MaxHitPoints)).ToString() + "/" + _hitPoints.MaxHitPoints;
+            float currentValue = Mathf.Lerp(previousValue, _hitPoints.CurrentValue / _hitPoints.MaxValue, normalizedPosition);
+            _text.text = (Mathf.Round(currentValue * _hitPoints.MaxValue)).ToString() + "/" + _hitPoints.MaxValue;
 
             yield return null;
         }
     }
 
-    private void OnHitPointsUpdate(float previousHitPointsValue)
+    private void OnHitPointsUpdate(float previousValue)
     {
-        StartCoroutine(UpdateVisual(previousHitPointsValue));
+        StartCoroutine(UpdateVisual(previousValue));
     }
 }
