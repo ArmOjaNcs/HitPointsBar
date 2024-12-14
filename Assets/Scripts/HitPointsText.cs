@@ -1,12 +1,12 @@
 using System.Collections;
+using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class HitPointsBar : MonoBehaviour, IVisualUpdate
+public class HitPointsText : MonoBehaviour, IVisualUpdate
 {
-    [SerializeField] private Slider _slider;
+    [SerializeField] private TextMeshProUGUI _text;
     [SerializeField] private HitPoints _hitPoints;
-
+    
     public float SmoothDuration { get; set; }
 
     private void OnEnable()
@@ -16,12 +16,13 @@ public class HitPointsBar : MonoBehaviour, IVisualUpdate
 
     private void OnDisable()
     {
-        _hitPoints.HitPointsUpdate -= OnHitPointsUpdate;
+        _hitPoints.HitPointsUpdate += OnHitPointsUpdate; 
     }
 
     private void Start()
     {
-        SmoothDuration = 0.75f;
+        _text.text = _hitPoints.CurrentHitPoints + "/" + _hitPoints.MaxHitPoints;
+        SmoothDuration = 0.3f;
     }
 
     public IEnumerator UpdateVisual(float previousHitPointsValue)
@@ -32,14 +33,15 @@ public class HitPointsBar : MonoBehaviour, IVisualUpdate
         {
             elapsedTime += Time.deltaTime;
             float normalizedPosition = elapsedTime / SmoothDuration;
-            _slider.value = Mathf.MoveTowards(previousHitPointsValue, _hitPoints.CurrentHitPoints / _hitPoints.MaxHitPoints, normalizedPosition);
+            float currentValue = Mathf.Lerp(previousHitPointsValue, _hitPoints.CurrentHitPoints / _hitPoints.MaxHitPoints, normalizedPosition);
+            _text.text = (Mathf.Round(currentValue * _hitPoints.MaxHitPoints)).ToString() + "/" + _hitPoints.MaxHitPoints;
 
             yield return null;
         }
     }
 
     private void OnHitPointsUpdate(float previousHitPointsValue)
-    {       
+    {
         StartCoroutine(UpdateVisual(previousHitPointsValue));
     }
 }

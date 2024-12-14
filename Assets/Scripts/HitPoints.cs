@@ -6,13 +6,17 @@ public class HitPoints : MonoBehaviour
     [SerializeField] private float _maxHitPoints;
     [SerializeField] private HitZone _hitZone;
 
-    private float _hitPoints;
-
-    public event Action<float, float> HitPointsUpdate;
+    public event Action<float> HitPointsUpdate;
 
     public float MaxHitPoints => _maxHitPoints;
+    public float CurrentHitPoints { get; private set; }
 
-    private float PreviousHitPoints => _hitPoints / MaxHitPoints;
+    private float PreviousHitPoints => CurrentHitPoints / MaxHitPoints;
+
+    private void Awake()
+    {
+        CurrentHitPoints = MaxHitPoints;
+    }
 
     private void OnEnable()
     {
@@ -26,30 +30,25 @@ public class HitPoints : MonoBehaviour
         _hitZone.MedPackDetected -= OnMedPackDetected;
     }
 
-    private void Start()
-    {
-        _hitPoints = MaxHitPoints;
-    }
-
     private void OnDamageDetected(float damage)
     {
         float previousHitPointsValue = PreviousHitPoints;
-        _hitPoints -= damage;
+        CurrentHitPoints -= damage;
 
-        if (_hitPoints < 0)
-            _hitPoints = 0;
+        if (CurrentHitPoints < 0)
+            CurrentHitPoints = 0;
 
-        HitPointsUpdate?.Invoke(previousHitPointsValue, _hitPoints / MaxHitPoints);
+        HitPointsUpdate?.Invoke(previousHitPointsValue);
     }
 
     private void OnMedPackDetected(float heal)
     {
         float previousHitPointsValue = PreviousHitPoints;
-        _hitPoints += heal;
+        CurrentHitPoints += heal;
 
-        if(_hitPoints > MaxHitPoints)
-            _hitPoints = MaxHitPoints;
+        if(CurrentHitPoints > MaxHitPoints)
+            CurrentHitPoints = MaxHitPoints;
 
-        HitPointsUpdate?.Invoke(previousHitPointsValue, _hitPoints / MaxHitPoints);
+        HitPointsUpdate?.Invoke(previousHitPointsValue);
     }
 }
