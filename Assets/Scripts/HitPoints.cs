@@ -6,12 +6,10 @@ public class HitPoints : MonoBehaviour
     [SerializeField] private float _maxValue;
     [SerializeField] private HitZone _hitZone;
 
-    public event Action<float> HitPointsUpdate;
+    public event Action HitPointsUpdate;
 
     public float MaxValue => _maxValue;
     public float CurrentValue { get; private set; }
-
-    private float PreviousValue => CurrentValue / MaxValue;
 
     private void Awake()
     {
@@ -32,23 +30,21 @@ public class HitPoints : MonoBehaviour
 
     private void OnDamageDetected(float damage)
     {
-        float previousValue = PreviousValue;
         CurrentValue -= damage;
 
         if (CurrentValue < 0)
             CurrentValue = 0;
 
-        HitPointsUpdate?.Invoke(previousValue);
+        HitPointsUpdate?.Invoke();
     }
 
     private void OnMedPackDetected(float heal)
     {
-        float previousValue = PreviousValue;
         CurrentValue += heal;
 
         if(CurrentValue > MaxValue)
             CurrentValue = MaxValue;
 
-        HitPointsUpdate?.Invoke(previousValue);
+        HitPointsUpdate?.Invoke();
     }
 }
