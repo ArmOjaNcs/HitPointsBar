@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class ViewSmoothedUpdate : ViewUpdate
+public abstract class HealthSmoothedView : HealthView
 {
     [SerializeField] private protected float CurrentSmoothDuration;
 

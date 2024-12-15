@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class HealthSmoothedText : ViewSmoothedUpdate
+public class HealthSmoothedText : HealthSmoothedView
 {
     [SerializeField] private TextMeshProUGUI _text;
 

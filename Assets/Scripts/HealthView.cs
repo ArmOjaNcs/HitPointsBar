@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public abstract class ViewUpdate : MonoBehaviour
+public abstract class HealthView : MonoBehaviour
 {
     [SerializeField] private protected Health Health;
 

@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthSmoothedBar : ViewSmoothedUpdate
+public class HealthSmoothedBar : HealthSmoothedView
 {
     [SerializeField] private Slider _slider;
 
