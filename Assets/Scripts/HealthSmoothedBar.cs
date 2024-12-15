@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SmoothHitPointsBar : SmoothVisualUpdate
+public class HealthSmoothedBar : ViewSmoothedUpdate
 {
     [SerializeField] private Slider _slider;
 
@@ -12,7 +12,7 @@ public class SmoothHitPointsBar : SmoothVisualUpdate
         _slider.value = Health.CurrentValue / Health.MaxValue;
     }
 
-    private protected override IEnumerator UpdateVisual()
+    private protected override IEnumerator UpdateView()
     {
         float elapsedTime = 0;
         float startValue = _slider.value;

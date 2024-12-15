@@ -2,7 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
-public class SmoothHitPointsText : SmoothVisualUpdate
+public class HealthSmoothedText : ViewSmoothedUpdate
 {
     [SerializeField] private TextMeshProUGUI _text;
 
@@ -12,7 +12,7 @@ public class SmoothHitPointsText : SmoothVisualUpdate
         SmoothDuration = CurrentSmoothDuration;
     }
 
-    private protected override IEnumerator UpdateVisual()
+    private protected override IEnumerator UpdateView()
     {
         float elapsedTime = 0;
         string[] splitedText = _text.text.Split('/');

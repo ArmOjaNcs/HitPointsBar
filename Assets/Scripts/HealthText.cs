@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class HitPointsText : VisualUpdate
+public class HealthText : ViewUpdate
 {
     [SerializeField] private TextMeshProUGUI _text;
 
@@ -10,7 +10,7 @@ public class HitPointsText : VisualUpdate
         _text.text = Health.CurrentValue + "/" + Health.MaxValue;
     }
 
-    private protected override void OnHitPointsUpdate()
+    private protected override void OnHealthUpdate()
     {
         _text.text = Health.CurrentValue + "/" + Health.MaxValue;
     }

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HitPointsBar : VisualUpdate
+public class HealthBar : ViewUpdate
 {
     [SerializeField] private Slider _slider;
 
@@ -10,7 +10,7 @@ public class HitPointsBar : VisualUpdate
         _slider.value = Health.CurrentValue / Health.MaxValue;
     }
 
-    private protected override void OnHitPointsUpdate()
+    private protected override void OnHealthUpdate()
     {
         _slider.value = Health.CurrentValue / Health.MaxValue;
     }

@@ -1,12 +1,12 @@
 using System;
 using UnityEngine;
 
-public class HitPoints : MonoBehaviour
+public class Health : MonoBehaviour
 {
     [SerializeField] private float _maxValue;
     [SerializeField] private HitZone _hitZone;
 
-    public event Action HitPointsUpdate;
+    public event Action HealthUpdate;
 
     public float MaxValue => _maxValue;
     public float CurrentValue { get; private set; }
@@ -35,7 +35,7 @@ public class HitPoints : MonoBehaviour
         if (CurrentValue < 0)
             CurrentValue = 0;
 
-        HitPointsUpdate?.Invoke();
+        HealthUpdate?.Invoke();
     }
 
     private void OnMedPackDetected(float heal)
@@ -45,6 +45,6 @@ public class HitPoints : MonoBehaviour
         if(CurrentValue > MaxValue)
             CurrentValue = MaxValue;
 
-        HitPointsUpdate?.Invoke();
+        HealthUpdate?.Invoke();
     }
 }
